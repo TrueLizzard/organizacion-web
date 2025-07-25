@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Gestión de Proyectos y Donantes</title>
+  <link rel="stylesheet" href="styles.css">
+  <script>
+    // Validación Proyecto
+    function validarProyecto() {
+      let nombre = document.getElementById('p_nombre').value.trim();
+      let presupuesto = parseFloat(document.getElementById('p_presupuesto').value);
+      let errorP = document.getElementById('errorP');
+      errorP.innerText = '';
+      let ok = true;
+
+      if (nombre.length < 3) {
+        errorP.innerText = '• El nombre debe tener al menos 3 caracteres.\n';
+        ok = false;
+      }
+      if (isNaN(presupuesto) || presupuesto <= 0) {
+        errorP.innerText += '• El presupuesto debe ser mayor que 0.';
+        ok = false;
+      }
+      return ok;
+    }
+
+    // Validación Donante
+    function validarDonante() {
+      let email = document.getElementById('d_email').value.trim();
+      let tel   = document.getElementById('d_telefono').value.trim();
+      let errorD = document.getElementById('errorD');
+      errorD.innerText = '';
+      let ok = true;
+
+      const reEmail = /^[^@]+@[^@]+\.[a-zA-Z]{2,}$/;
+      const reTel   = /^\+?[0-9]{7,15}$/;
+
+      if (!reEmail.test(email)) {
+        errorD.innerText = '• Email inválido.\n';
+        ok = false;
+      }
+      if (tel && !reTel.test(tel)) {
+        errorD.innerText += '• Teléfono inválido.';
+        ok = false;
+      }
+      return ok;
+    }
+  </script>
+</head>
+<body>
+
+  <h1>Gestión de Proyectos y Donantes</h1>
+
+  <!-- Formulario de Proyectos -->
+  <section>
+    <form action="procesar_proyecto.php" method="post" onsubmit="return validarProyecto()">
+      <h2>Nuevo Proyecto</h2>
+      <div id="errorP" class="error"></div>
+
+      <label for="p_nombre">Nombre</label>
+      <input type="text" id="p_nombre" name="nombre" required>
+
+      <label for="p_descripcion">Descripción</label>
+      <textarea id="p_descripcion" name="descripcion" rows="3"></textarea>
+
+      <label for="p_presupuesto">Presupuesto</label>
+      <input type="number" id="p_presupuesto" name="presupuesto" step="0.01" required>
+
+      <label for="p_fecha_inicio">Fecha Inicio</label>
+      <input type="date" id="p_fecha_inicio" name="fecha_inicio">
+
+      <label for="p_fecha_fin">Fecha Fin</label>
+      <input type="date" id="p_fecha_fin" name="fecha_fin">
+
+      <button type="submit">Guardar Proyecto</button>
+    </form>
+  </section>
+
+  <!-- Formulario de Donantes -->
+  <section>
+    <form action="procesar_donante.php" method="post" onsubmit="return validarDonante()">
+      <h2>Nuevo Donante</h2>
+      <div id="errorD" class="error"></div>
+
+      <label for="d_nombre">Nombre</label>
+      <input type="text" id="d_nombre" name="nombre" required>
+
+      <label for="d_email">Email</label>
+      <input type="email" id="d_email" name="email" required>
+
+      <label for="d_direccion">Dirección</label>
+      <input type="text" id="d_direccion" name="direccion">
+
+      <label for="d_telefono">Teléfono</label>
+      <input type="text" id="d_telefono" name="telefono">
+
+      <button type="submit">Guardar Donante</button>
+    </form>
+  </section>
+
+</body>
+</html>
