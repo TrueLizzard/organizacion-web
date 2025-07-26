@@ -45,6 +45,27 @@
       }
       return ok;
     }
+
+    // Validación Voluntario
+    function validarVoluntario() {
+        let nombre = document.getElementById('v_nombre').value.trim();
+        let email = document.getElementById('v_email').value.trim();
+        let errorV = document.getElementById('errorV');
+        errorV.innerText = '';
+        let ok = true;
+
+        const reEmail = /^[^@]+@[^@]+\.[a-zA-Z]{2,}$/;
+
+        if (nombre.length < 3) {
+        errorV.innerText = '• El nombre debe tener al menos 3 caracteres.\n';
+        ok = false;
+      }
+        if (!reEmail.test(email)) {
+        errorV.innerText += '• Email inválido.\n';
+        ok = false;
+      }
+        return ok;
+      }
   </script>
 </head>
 <body>
@@ -97,6 +118,31 @@
       <button type="submit">Guardar Donante</button>
     </form>
   </section>
+
+  <!-- Formulario de Voluntarios -->
+   <section>
+  <form action="procesar_voluntario.php" method="post" onsubmit="return validarVoluntario()">
+    <h2>Quiero ser Voluntario</h2>
+    <div id="errorV" class="error"></div>
+
+    <label for="v_nombre">Nombre Completo</label>
+    <input type="text" id="v_nombre" name="nombre" required>
+
+    <label for="v_email">Email</label>
+    <input type="email" id="v_email" name="email" required>
+
+    <label for="v_telefono">Teléfono (Opcional)</label>
+    <input type="text" id="v_telefono" name="telefono">
+
+    <label for="v_habilidades">Habilidades / Intereses (Ej: Marketing, Programación, Eventos)</label>
+    <textarea id="v_habilidades" name="habilidades" rows="3"></textarea>
+
+    <label for="v_disponibilidad">Disponibilidad (Ej: Fines de semana, Martes y Jueves)</label>
+    <input type="text" id="v_disponibilidad" name="disponibilidad">
+
+    <button type="submit">Enviar Postulación</button>
+  </form>
+</section>
 
 </body>
 </html>
